@@ -21,6 +21,16 @@
 		<name>yarn.log-aggregation-enable</name>
 		<value>true</value>
 	</property>
+	    <property>  
+        <name>yarn.log.server.url</name>  
+        <value>http://hadoop104:19888/jobhistory/logs</value>  
+    </property> 
+    <property>
+        <name>yarn.log-aggregation.retain-seconds</name>
+        <value>604800</value>
+	</property>
+	
+	
 
 	<!-- configurations for ResourceManager -->
 	<property>
@@ -36,6 +46,29 @@
 		<description>Shuffle service that needs to be set for Map Reduce applications.</description>
     </property>
 	
+	<configuration>
+
+    <property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>hadoop104</value>
+	</property>
+	<property>
+        <name>yarn.nodemanager.env-whitelist</name>
+        <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>512</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>4096</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>8192</value>
+    </property>
+</configuration>
 	<!-- configurations for History Server -->
 	<property>
 		<name></name>

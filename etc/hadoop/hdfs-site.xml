@@ -17,82 +17,98 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+
+  <property>
+    <name>dfs.ha.automatic-failover.enabled</name>
+    <value>true</value>
+  </property>
     <!-- 指定副本数  -->
-	<property>
-	  <name>dfs.replication</name>
-	  <value>3</value>
-	</property>
-	<property>
+  <property>
+    <name>dfs.replication</name>
+    <value>3</value>
+  </property>
+  <property>
         <name>dfs.blocksize</name>
         <value>134217728</value>
     </property>
-	<property>
-	  <name>dfs.nameservices</name>
-	  <value>mycluster</value>
-	</property>
+  <property>
+    <name>dfs.nameservices</name>
+    <value>mycluster</value>
+  </property>
 
    <!-- 指定NameNode数据的存储目录 -->
-	  <property>
-		<name>dfs.namenode.name.dir</name>
-		<value>file://${hadoop.data.dir}/name</value>
-	  </property>
-	 <!-- 指定Datanode数据的存储目录 -->
-	  <property>
-		<name>dfs.datanode.data.dir</name>
-		<value>file://${hadoop.data.dir}/data</value>
-	  </property>
- 	<!-- 集群中NameNode节点都有哪些 -->
-	<property>
-		<name>dfs.ha.namenodes.mycluster</name>
-		<value>nn1,nn2</value>
-	</property>
-	<!-- nn1的RPC通信地址 -->
-	<property>
-		<name>dfs.namenode.rpc-address.mycluster.nn1</name>
-		<value>hadoop100:9000</value>
-	</property>
+    <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file://${hadoop.data.dir}/name</value>
+    </property>
+   <!-- 指定Datanode数据的存储目录 -->
+    <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file://${hadoop.data.dir}/data</value>
+    </property>
+  <!-- 集群中NameNode节点都有哪些 -->
+  <property>
+    <name>dfs.ha.namenodes.mycluster</name>
+    <value>nn1,nn2,nn3</value>
+  </property>
+  <!-- nn1的RPC通信地址 -->
+  <property>
+    <name>dfs.namenode.rpc-address.mycluster.nn1</name>
+    <value>hadoop100:9000</value>
+  </property>
 
-	<!-- nn2的RPC通信地址 -->
-	<property>
-		<name>dfs.namenode.rpc-address.mycluster.nn2</name>
-		<value>hadoop101:9000</value>
-	</property>
+  <!-- nn2的RPC通信地址 -->
+  <property>
+    <name>dfs.namenode.rpc-address.mycluster.nn2</name>
+    <value>hadoop101:9000</value>
+  </property>
 
-        	<!-- nn1的http通信地址 -->
-	<property>
-		<name>dfs.namenode.http-address.mycluster.nn1</name>
-		<value>hadoop100:9870</value>
-	</property>
+    <!-- nn3的RPC通信地址 -->
+  <property>
+    <name>dfs.namenode.rpc-address.mycluster.nn3</name>
+    <value>hadoop102:9000</value>
+  </property>
 
-	<!-- nn2的http通信地址 -->
-	<property>
-		<name>dfs.namenode.http-address.mycluster.nn2</name>
-		<value>hadoop101:9870</value>
-	</property>
+   <!-- nn1的http通信地址 -->
+  <property>
+    <name>dfs.namenode.http-address.mycluster.nn1</name>
+    <value>hadoop100:9870</value>
+  </property>
+  <!-- nn2的http通信地址 -->
+  <property>
+    <name>dfs.namenode.http-address.mycluster.nn2</name>
+    <value>hadoop101:9870</value>
+  </property>
+    <!-- nn2的http通信地址 -->
+  <property>
+    <name>dfs.namenode.http-address.mycluster.nn3</name>
+    <value>hadoop102:9870</value>
+  </property>
+
 
     <!-- 指定NameNode元数据在JournalNode上的存放位置 -->
-	<property>
-		<name>dfs.namenode.shared.edits.dir</name>
-	<value>qjournal://hadoop100:8485;hadoop101:8485/mycluster</value>
-	</property>
+  <property>
+    <name>dfs.namenode.shared.edits.dir</name>
+  <value>qjournal://hadoop100:8485;hadoop101:8485;hadoop102:8485/mycluster</value>
+  </property>
         
-        	<!-- 配置隔离机制，即同一时刻只能有一台服务器对外响应 -->
-	<property>
-		<name>dfs.ha.fencing.methods</name>
-		<value>sshfence</value>
-	</property>
+          <!-- 配置隔离机制，即同一时刻只能有一台服务器对外响应 -->
+  <property>
+    <name>dfs.ha.fencing.methods</name>
+    <value>sshfence</value>
+  </property>
 
-	<!-- 使用隔离机制时需要ssh无秘钥登录-->
-	<property>
-		<name>dfs.ha.fencing.ssh.private-key-files</name>
-		<value>/root/.ssh/id_rsa</value>
-	</property>
+  <!-- 使用隔离机制时需要ssh无秘钥登录-->
+  <property>
+    <name>dfs.ha.fencing.ssh.private-key-files</name>
+    <value>/root/.ssh/id_rsa</value>
+  </property>
 
-	<!-- 访问代理类：client用于确定哪个NameNode为Active -->
-	<property>		
-	<name>dfs.client.failover.proxy.provider.mycluster</name>
-	<value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
-	</property>
+  <!-- 访问代理类：client用于确定哪个NameNode为Active -->
+  <property>    
+  <name>dfs.client.failover.proxy.provider.mycluster</name>
+  <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+  </property>
    
    <!-- 兼容配置，先跳过 -->
     <property>
@@ -100,12 +116,12 @@
     <value>30s</value>
   </property>
   
-	  <!-- The number of Namenode RPC server threads that listen to requests from clients. If dfs.namenode.servicerpc-address is not configured then Namenode RPC server threads listen to requests from all nodes.
-	NameNode有一个工作线程池，用来处理不同DataNode的并发心跳以及客户端并发的元数据操作。
-	对于大集群或者有大量客户端的集群来说，通常需要增大参数dfs.namenode.handler.count的默认值10。 
-	经验公式：dfs.namenode.handler.count=20 * ln(ClusterSize)，比如集群规模为8台时，此参数设置为41-->
-	<property>
-		<name>dfs.namenode.handler.count</name>
-		<value>20</value>
-	</property>
+    <!-- The number of Namenode RPC server threads that listen to requests from clients. If dfs.namenode.servicerpc-address is not configured then Namenode RPC server threads listen to requests from all nodes.
+  NameNode有一个工作线程池，用来处理不同DataNode的并发心跳以及客户端并发的元数据操作。
+  对于大集群或者有大量客户端的集群来说，通常需要增大参数dfs.namenode.handler.count的默认值10。 
+  经验公式：dfs.namenode.handler.count=20 * ln(ClusterSize)，比如集群规模为8台时，此参数设置为41-->
+  <property>
+    <name>dfs.namenode.handler.count</name>
+    <value>20</value>
+  </property>
 </configuration>

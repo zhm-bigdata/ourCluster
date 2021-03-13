@@ -23,14 +23,14 @@
         <value>yarn</value>
     </property>
 	<!-- configurations for Mapreduce Job History Server -->	
-		<!-- 历史服务器端地址 -->
+		<!-- 鍘嗗彶鏈嶅姟鍣ㄧ鍦板潃 -->
 	<property>
 		<name>mapreduce.jobhistory.address</name>
 		<value>hadoop102:10020</value>
 		<description>MapReduce JobHistory Server host:port, Default port is 10020.</description>
 	</property>
 
-	<!-- 历史服务器web端地址 -->
+	<!-- 鍘嗗彶鏈嶅姟鍣╳eb绔湴鍧� -->
 	<property>
 		<name>mapreduce.jobhistory.webapp.address</name>
 		<value>hadoop104:19888</value>

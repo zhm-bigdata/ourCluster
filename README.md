@@ -3,7 +3,7 @@ private person use
 
 linux密码： 
 
-​		root 	Zhanghoumin
+​		root 	Root123456..
 
 ​	zhanghoumin	Abc123456..
 

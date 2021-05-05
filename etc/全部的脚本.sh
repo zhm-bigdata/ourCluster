@@ -4,6 +4,26 @@
 172.25.185.163 hadoop103
 172.26.112.94 hadoop104
 
+## 更改ip内部地址的脚本changeHosts.sh
+
+if [[ $# -eq 1 ]]; then
+    #statements
+    echo 'Args number is wrong'
+    exit
+fi
+
+for HOST_NAME in hadoop100 hadoop101 hadoop102 hadoop103 hadoop104 
+do
+    echo "--------------HOST_NAME-------------------------"
+    ssh HOST_NAME `sudo sed -i 's/172.20.107.93/172.25.185.170/g'  /etc/hosts`
+    ssh HOST_NAME `sudo sed -i 's/172.26.112.93/172.25.185.166/g'  /etc/hosts`
+    ssh HOST_NAME `sudo sed -i 's/172.25.185.162/172.25.185.169/g'  /etc/hosts`
+    ssh HOST_NAME `sudo sed -i 's/172.25.185.163/172.25.185.167/g'  /etc/hosts`
+    ssh HOST_NAME `sudo sed -i 's/172.26.112.94/172.25.185.168/g'  /etc/hosts`
+done
+
+
+
 
 bin/kafka-topics.sh --bootstrap-server xxx.xx.xx.xx:9092  --list
 
@@ -29,16 +49,16 @@ for (( i=100;i<=104;i++ ))
    rsync -av  $DIR/$FILE_NAME `whoami`@"hadoop"$i:$DIR/
  done
 
-----------------------------------------------------------------------------------------------------------------
+-------------------------------------------------zhm_checks.sh---------------------------------------------------------------
 
  // 查看各节点状态脚本 checks.sh
- #!/bin/bash
-if [ ! -n $1 ];then
+ #!/bin/bash, 字符串比较：==(判断两个字符串是否相当)、-z(字符串的值是否为空),-n(字符串的值是否不为空，相当于! -z)
+if [ -z $1 ];then
  echo '参数错误，至少有一个参数'
  exit
 fi
 
-COMMAND=$1
+COMMAND=$*
 for (( i=100;i<=104;i++ ))
 do
   echo "----------hadoop$i-----------"
@@ -370,4 +390,55 @@ case $1 in
 esac
 
 
------------------------------------------------------zhm_-----------------------------------------------------------
+-----------------------------------------------------zhm_redis_cluster.sh-----------------------------------------------------------
+#!/bin/bash
+
+if [ $# -ne 1 ];then
+    echo "参数有误，有且只能有1个参数"
+    exit
+fi
+
+case $1 in
+    "start")
+        for HOST_NAME in hadoop100 hadoop103 hadoop104
+        do
+            echo "------------------$HOST_NAME start redis-6379'------------------"
+            ssh $HOST_NAME  /usr/local/bin/redis-server /opt/app/redis-3.0.4/myredis/redis-6379.conf
+            echo "------------------$HOST_NAME start redis-6380'------------------"
+            ssh $HOST_NAME redis-server /opt/app/redis-3.0.4/myredis/redis-6380.conf
+        done
+    ;;
+    "stop")
+        for HOST_NAME in hadoop100 hadoop103 hadoop104
+        do
+            echo "------------------$HOST_NAME stop redis------------------"
+            # 效果和redis-cli -p 6379 shutdown一样，存盘，退出;
+            # 此处后面必须加双引号（与此对应 $需转译）
+                # 不加双引会报错（kill: sending signal to 1946 failed: No such process），因为在执行脚本的机器上kill的远程机器的pid；
+                # 加飘号``会报错 kill用法不对---找不到kill的对象pid
+            ssh $HOST_NAME "ps -ef | grep redis |grep -v grep| grep -v zhm_redis_cluster.sh| awk '{print \$2}'| xargs -n1 kill"
+        done
+    ;;
+    "create")
+        for HOST_NAME in hadoop100 hadoop103 hadoop104
+        do
+            echo "------------------$HOST_NAME start redis-6379'------------------"
+            ssh $HOST_NAME /usr/local/bin/redis-server /opt/app/redis-3.0.4/myredis/redis-6379.conf
+            echo "------------------$HOST_NAME start redis-6380'------------------"
+            ssh $HOST_NAME redis-server /opt/app/redis-3.0.4/myredis/redis-6380.conf
+        done
+        echo "-----------------create cluster'------------------"
+        sleep 5s
+        /opt/app/redis-3.0.4/src/redis-trib.rb create --replicas 1 172.25.185.176:6379 172.25.185.176:6380 172.25.185.174:6379 172.25.185.174:6380 172.25.185.173:6379 172.25.185.173:6380 
+    ;;
+    *)
+      echo "输入参数错误，只能为start/stop/create"
+    ;;
+esac
+
+
+
+sed -i 's/logfile \"\"/logfile \"redis-6379.log\"/g' /opt/app/redis-3.0.4/myredis/redis-6379.conf
+sed -i 's/logfile \"\"/logfile \"redis-6380.log\"/g' /opt/app/redis-3.0.4/myredis/redis-6380.conf
+
+

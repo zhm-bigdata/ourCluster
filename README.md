@@ -5,7 +5,11 @@ linux密码：
 
 ​		root 	Zhanghoumin
 
+​		root 	Root123456..
+
 ​	zhanghoumin	Abc123456..
+
+​	hadoop101/102: weichuanfu	Abc123456..
 
 软件包放置目录: /app/installPackage 软件安装目录： /app/software
 
@@ -46,3 +50,8 @@ kafka  topics：
 ​			用户日志：ssh hadoop101 	java -jar	/opt/mock/online/mock-log/gmall2020-mock-log-2020-05-10.jar
 
 ​			业务数据：ssh hadoop101 	java -jar	/opt/mock/online/mock-log/gmall2020-mock-db-2020-05-18.jar
+
+hadoop：
+
+​	
+

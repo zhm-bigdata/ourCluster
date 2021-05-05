@@ -79,4 +79,17 @@
         <name>io.compression.codec.lzo.class</name>
         <value>com.hadoop.compression.lzo.LzoCodec</value>
     </property>
+
+
+<!-- 一下两个参数，是由于使用start-dfs.sh启动集群时，journalnode（3个）启动慢，而namenode（3个）启动时连接不上jn导致启动失败或者高可用不可用（实际情况是1个active，kill掉后其余俩还是standby），故调整这俩参数，使namenode在最大尝试次数和时间之前能 连上jn -->
+    <property>
+        <name>ipc.client.connect.max.retries</name>
+        <value>100</value>
+        <description>默认10。Indicates the number of retries a client will make to establish a server connection.</description>
+    </property>
+    <property>
+        <name>ipc.client.connect.timeout</name>
+        <value>5000</value>
+        <description>默认1000ms。Indicates the number of milliseconds a client will wait for before retrying to establish a server connection.</description>
+    </property>
 </configuration>

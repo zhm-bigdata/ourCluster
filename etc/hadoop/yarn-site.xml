@@ -57,10 +57,12 @@
     <property>
         <name>yarn.scheduler.maximum-allocation-mb</name>
         <value>4096</value>
+        <description>The maximum allocation for every container request at the RM in MBs. Memory requests higher than this will throw an InvalidResourceRequestException.</description>
     </property>
     <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
-        <value>8192</value>
+        <value>7168</value>
+        <description>Amount of physical memory, in MB, that can be allocated for containers. If set to -1 and yarn.nodemanager.resource.detect-hardware-capabilities is true, it is automatically calculated(in case of Windows and Linux)，如果这样，可通过令一个参数来更改为系统非yarn的进程预留的内存大小（yarn.nodemanager.resource.system-reserved-memory-mb，有默认值 -1，If set to -1, this amount is calculated as 20% of (system memory - 2*HADOOP_HEAPSIZE)）. In other cases, the default is 8192MB.</description>
     </property>
     
         <!-- configurtions for NodeManager -->
@@ -69,6 +71,15 @@
         <value>mapreduce_shuffle</value> 
         <description>Shuffle service that needs to be set for Map Reduce applications.</description>
     </property>
+    <property>
+    	<name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+    	<value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+    <!--spark_shuffle-->
+<!--     <property>
+	    <name>yarn.nodemanager.aux-services.spark_shuffle.class</name>
+	    <value>org.apache.spark.network.yarn.YarnShuffleService</value>
+  	</property> -->
 
 </configuration>
 

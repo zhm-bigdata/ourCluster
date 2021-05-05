@@ -1,0 +1,9 @@
+修改或者增加以下内容：
+#broker的全局唯一编号，不能重复
+broker.id=0
+#删除topic功能使能
+delete.topic.enable=true
+#kafka运行日志存放的路径
+log.dirs=/opt/app/kafka-2.4.1/logs
+#配置连接Zookeeper集群地址,在zookeeper文件系统中建立kafka文件夹存放数据
+zookeeper.connect=hadoop102:2181,hadoop103:2181,hadoop104:2181/kafka

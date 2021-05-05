@@ -3,7 +3,7 @@ private person use
 
 linux密码： 
 
-​		root 	Zhanghoumin
+​		root 	Root123456..
 
 ​		root 	Root123456..
 
@@ -50,8 +50,3 @@ kafka  topics：
 ​			用户日志：ssh hadoop101 	java -jar	/opt/mock/online/mock-log/gmall2020-mock-log-2020-05-10.jar
 
 ​			业务数据：ssh hadoop101 	java -jar	/opt/mock/online/mock-log/gmall2020-mock-db-2020-05-18.jar
-
-hadoop：
-
-​	
-
